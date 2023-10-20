@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Hotel, PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 const prisma = new PrismaClient();
 
@@ -40,6 +40,47 @@ async function main() {
         }
       ]
     })
+  }
+
+  let hotels = await prisma.hotel.findFirst();
+  if (!hotels) {
+    let hotelsData = [
+      {
+        name: "Driven Resort",
+        image: "https://www.salinas.com.br/img/layout/maceio/resort/salinas-maceio-all-inclusive-resort-01-mob.jpg",
+      },
+      {
+        name: "Driven Deluxe",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtMBWMPZDa3vl0lzQi-9sXPF2IiYpPp-DICR1EgET2ytk3WhSpqIFRQSYSuTcHJPmxl-U&usqp=CAU"
+      },
+      {
+        name: "Driven Pousada",
+        image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/6b/92/78/pousada-das-pedras.jpg?w=1200&h=-1&s=1"
+      }
+    ]
+    let roomsData = [
+      {name:'100',capacity:1},
+      {name:'101',capacity:2},
+      {name:'102',capacity:3},
+      {name:'103',capacity:2},
+      {name:'104',capacity:3},
+      {name:'105',capacity:1},
+      {name:'106',capacity:2},
+      {name:'107',capacity:1},
+    ]
+    for(let i = 0 ; i < 3 ; i++){
+      await prisma.hotel.create({
+        data:{
+          name: hotelsData[i].name,
+          image: hotelsData[i].image,
+          Rooms:{
+            createMany:{
+              data: roomsData
+            }
+          }
+        }
+      }) 
+    }
   }
 
   console.log({ event });

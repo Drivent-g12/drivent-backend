@@ -53,8 +53,14 @@ async function changeBookingRoomById(userId: number, roomId: number) {
   });
 }
 
+async function getHotelBookings(hotelId: number) {
+  let bookings = await bookingRepository.getHotelBookings(hotelId)
+  return bookings
+}
+
 export const bookingService = {
   bookRoomById,
   getBooking,
   changeBookingRoomById,
+  getHotelBookings,
 };
