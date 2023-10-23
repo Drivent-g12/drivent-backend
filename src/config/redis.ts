@@ -6,7 +6,11 @@ loadEnv();
 export const DEFAULT_EXP = 1800;
 
 const redis = createClient({
-  url: process.env.REDIS_URL,
+  password: 'TkKca11ptozDN8yPyuORxL8Ii4JSU6RH',
+  socket: {
+    host: 'redis-19937.c259.us-central1-2.gce.cloud.redislabs.com',
+    port: 19937,
+  },
 });
 
 async () => {
