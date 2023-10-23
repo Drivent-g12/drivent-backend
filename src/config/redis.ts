@@ -7,6 +7,7 @@ export const DEFAULT_EXP = 1800;
 
 export const redis = createClient({
   password: process.env.REDIS_PASSWORD,
+  legacyMode: true,
   socket: {
     host: process.env.REDIS_HOSTNAME,
     port: Number(process.env.REDIS_PORT),
