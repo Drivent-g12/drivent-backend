@@ -1,16 +1,21 @@
 import { createClient } from 'redis';
+import { loadEnv } from './envs';
 
-export const DEFAULT_EXP = 3600;
+loadEnv();
+
+export const DEFAULT_EXP = 1800;
 
 export const redis = createClient({
-  password: 'TkKca11ptozDN8yPyuORxL8Ii4JSU6RH',
+  password: process.env.REDIS_PASSWORD,
   socket: {
-    host: 'redis-19937.c259.us-central1-2.gce.cloud.redislabs.com',
-    port: 19937,
+    host: process.env.REDIS_HOSTNAME,
+    port: Number(process.env.REDIS_PORT),
   },
 });
 
-export async function connectRedis(): Promise<void> {
+(async () => {
   console.log('Connecting to Redis...');
-  await redis.on('error', (err) => console.log('Redis Client Error', err)).connect();
-}
+  await redis.connect();
+})();
+
+export default redis;
