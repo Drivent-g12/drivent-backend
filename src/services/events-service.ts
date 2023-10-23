@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { notFoundError } from '@/errors';
 import { eventRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
-import redis, { DEFAULT_EXP } from '@/config/redis';
+import { redis, DEFAULT_EXP } from '@/config';
 
 async function getFirstEvent(): Promise<GetFirstEventResult> {
   const key = 'event';
