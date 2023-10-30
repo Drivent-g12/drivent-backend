@@ -34,8 +34,9 @@ async function findTicketById(ticketId: number) {
   return result;
 }
 
-async function ticketProcessPayment(ticketId: number) {
-  const result = prisma.ticket.update({
+async function ticketProcessPayment(ticketId: number, client?:any) {
+  if(!client) client = prisma
+  const result = client.ticket.update({
     where: {
       id: ticketId,
     },

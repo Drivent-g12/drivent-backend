@@ -14,8 +14,10 @@ async function upsert(
   userId: number,
   createdEnrollment: CreateEnrollmentParams,
   updatedEnrollment: UpdateEnrollmentParams,
+  client?: any
 ) {
-  return prisma.enrollment.upsert({
+  if(!client) client = prisma
+  return client.enrollment.upsert({
     where: {
       userId,
     },
