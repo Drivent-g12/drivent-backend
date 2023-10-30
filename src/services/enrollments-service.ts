@@ -59,7 +59,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   await prisma.$transaction(async (tx) => {
     const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'),tx);
     console.log(newEnrollment)
-    const newAddress = await addressRepository.upsert(1234, address, address,tx);
+    const newAddress = await addressRepository.upsert(newEnrollment.id, address, address,tx);
     console.log(newAddress)
   })
 
