@@ -57,8 +57,10 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   await getAddressFromCEP(address.cep);
 
   await prisma.$transaction(async (tx) => {
-    const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
-    await addressRepository.upsert(newEnrollment.id, address, address);
+    const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'),tx);
+    console.log(newEnrollment)
+    const newAddress = await addressRepository.upsert(1234, address, address,tx);
+    console.log(newAddress)
   })
 
 }

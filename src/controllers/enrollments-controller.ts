@@ -13,12 +13,10 @@ export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Respon
 }
 
 export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response) {
-  console.log("Oi Controller")
   await enrollmentsService.createOrUpdateEnrollmentWithAddress({
     ...req.body,
     userId: req.userId,
   });
-  console.log("Voltou Controler")
   return res.sendStatus(httpStatus.OK);
 }
 
