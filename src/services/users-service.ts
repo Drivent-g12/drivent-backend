@@ -30,8 +30,14 @@ async function canEnrollOrFail() {
   }
 }
 
+async function validateUserWithEmail(email: string) {
+  const userWithEmail = await userRepository.findByEmail(email);
+  return !!userWithEmail;
+}
+
 export type CreateUserParams = Pick<User, 'email' | 'password'>;
 
 export const userService = {
   createUser,
+  validateUserWithEmail,
 };
