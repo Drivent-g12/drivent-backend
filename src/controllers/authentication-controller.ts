@@ -14,17 +14,13 @@ export async function githubSignInPost(req: Request, res: Response) {
   const githubEmail = res.locals.githubEmail;
 
   // look for email in database
-  // if found, log in without password
-  // if not found, create a new user and then log in without password
+  // if not found, create a new user
+  // logs the user in after
 
   const userWithEmailBoolean = await userService.validateUserWithEmail(githubEmail);
 
   if (!userWithEmailBoolean) {
-    // create user and then log in without password
-    // throws error for now -> database needs to be fixed so password is nullable
-    // maybe generate new complex password instead so no db changes are needed?
-
-    throw Error;
+    const user = await userService.createUserWithouPassword(githubEmail);
   }
 
   const result = await authenticationService.signInWithoutPassword(githubEmail);
