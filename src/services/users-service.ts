@@ -16,6 +16,19 @@ export async function createUser({ email, password }: CreateUserParams): Promise
   });
 }
 
+export async function createUserWithouPassword(email: string): Promise<User> {
+  await canEnrollOrFail();
+
+  // technically unecessary as the function is only being executed if there's no matching email to begin with
+  // but I'll keep it just for the sake of avoiding issues were this function to be used in another way in the future
+  await validateUniqueEmailOrFail(email);
+
+  return userRepository.create({
+    email,
+    password: null,
+  });
+}
+
 async function validateUniqueEmailOrFail(email: string) {
   const userWithSameEmail = await userRepository.findByEmail(email);
   if (userWithSameEmail) {
@@ -30,8 +43,15 @@ async function canEnrollOrFail() {
   }
 }
 
+async function validateUserWithEmail(email: string) {
+  const userWithEmail = await userRepository.findByEmail(email);
+  return !!userWithEmail;
+}
+
 export type CreateUserParams = Pick<User, 'email' | 'password'>;
 
 export const userService = {
   createUser,
+  validateUserWithEmail,
+  createUserWithouPassword,
 };
